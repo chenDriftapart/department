@@ -1,0 +1,74 @@
+body {
+    background-color: #efefef;
+}
+
+.main {
+    margin: 30px;
+    background-color: white;
+}
+
+.btn-publish {
+    float: right;
+    margin-bottom: 15px;
+}
+
+.img {
+    width: 40px;
+    height: 40px;
+}
+
+.desc {
+    font-size: xx-small;
+    color: #b7b5b5;
+}
+
+.temp-btn {
+    width: 100px;
+    height: 30px;
+    font-size: 14px;
+    color: #2ab5da;
+    margin: 5px;
+}
+
+.row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.thead-blue th {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #0d7adf;
+}
+
+.btn-a {
+    color: white;
+}
+
+table{
+    width: 80%;
+    align: center;
+    border:1px solid #cad9ea;/*设置边框粗细，实线，颜色*/
+    text-align:center;/*文本居中*/
+    background-color:gainsboro;
+    border-collapse: collapse;/*边框重叠，否则你会看到双实线*/
+    margin:0px auto;
+}
+th{
+    border:1px solid black;
+    color:black;
+    font-weight:bold;/*因为是标题栏，加粗显示*/
+}
+td{
+    border:1px solid black;
+    color:#8E2323;
+}
+/**奇数**/
+table tr:nth-child(odd){
+    background: gold;
+}
+/**偶数**/
+table td:nth-child(even){
+    background: #aeaeae;
+}

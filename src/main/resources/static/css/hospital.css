@@ -1,0 +1,52 @@
+body {
+    background-color: #efefef;
+}
+
+.main {
+    margin: 30px;
+    background-color: white;
+}
+
+.btn-publish {
+    float: right;
+    margin-bottom: 15px;
+}
+
+.img {
+    width: 40px;
+    height: 40px;
+}
+
+.desc {
+    font-size: xx-small;
+    color: #b7b5b5;
+}
+
+.temp-btn {
+    width: 100px;
+    height: 30px;
+    font-size: 14px;
+    color: #2ab5da;
+    margin: 5px;
+}
+
+.cet {
+    text-align: center;
+    font-weight:bold;/*因为是标题栏，加粗显示*/
+}
+
+.row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.thead-blue th {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #0d7adf;
+}
+
+.btn-a {
+    color: white;
+}

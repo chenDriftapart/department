@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>boot</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-table.js"></script>
+    <script src="/js/bootstrap-table-zh-CN.js"></script>
+    <script src="/js/grade.js"></script>
+    <link rel="stylesheet" href="/css/hospital.css">
+    <script src="https://use.fontawesome.com/38f0aa120f.js"></script>
+</head>
+<body>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <h3>员工信息管理 <small><a href="/newGroup">添加信息</a></small></h3>
+
+            <hr>
+            <div class="col-xs-12 col-md-12" style="background-color: #e0f3f8">
+                <div style="padding: 10px">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">员工姓名</div>
+                                    <input type="text" class="form-control" id="eplName" placeholder="EmployName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-lg-offset-1">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">部门</div>
+                                    <select class="form-control" id="departName">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-lg-offset-1">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">状态</div>
+                                    <select class="form-control" id="groupState">
+                                        <option value="">请选择</option>
+                                        <option value="1">在职</option>
+                                        <option value="0">离职</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 20px">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <div class="input-group">
+
+                                    <div class="input-group-addon">入职时间</div>
+                                    <input type="date" class="form-control" id="time1" placeholder="Amount">
+                                    <div class="input-group-addon">~</div>
+                                    <input type="date" class="form-control" id="time2" placeholder="Amount">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6" style="padding-left: 400px">
+                            <button type="reset" class="btn btn-info" onclick="empty()">清空</button>
+                            <button type="submit" class="btn btn-info" id="search">检索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover" id="tableL01"></table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="toolbar">
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="edit">编辑</button>
+    <button type="button" class="btn btn-danger" onclick="remove()">删除</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">员工信息编辑</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">员工姓名</div>
+                                <input type="text" class="form-control" id="dName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">部门</div>
+                                <input type="text" class="form-control" id="depart">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 ">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">年龄</div>
+                                <input type="text" class="form-control" id="age">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">性别</div>
+                                <select class="form-control" id="sex">
+                                    <option value="">请选择</option>
+                                    <option value="0">男</option>
+                                    <option value="1">女</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">入职时间</div>
+                                <input type="date" class="form-control" id="start_time">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="save" data-toggle="modal" data-target="#myModal"
+                        onclick="save()">保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    $(function () {
+
+        let tableColumns = [
+            {checkbox: true},
+            {field: 'id', title: '编号', visible: false, align: 'center', sortable: true},
+            {field: 'name', title: '员工姓名', align: 'center', sortable: true},
+            {field: 'dep', title: '部门', align: 'center', sortable: true},
+            {field: 'age', title: '年龄', align: 'center', sortable: true},
+            {
+                field: 'sex',
+                title: '性别',
+                align: 'center',
+                sortable: true,
+                formatter: function (value, row, index) {
+                    return value == 0 || value == '0' ? '男' : '女';
+                }
+            },
+            {field: 'entryTime', title: '入职时间', align: 'center', sortable: true}];
+
+        $('#tableL01').bootstrapTable('destroy');   //动态加载表格之前，先销毁表格
+
+        $('#tableL01').bootstrapTable({//表格初始化
+            columns: tableColumns,  //表头
+            dataType: 'json',
+            url: 'getAll',
+            method: 'get',
+            pageNumber: 1,
+            cache: false,
+            striped: true,
+            pagination: true,
+            sidePagination: 'client',
+            pageSize: 5,//单页记录数
+            pageList: [5, 10, 20, 30],//可选择单页记录数
+            search: false,
+            theadClasses: "thead-blue",
+            showRefresh: false,
+            showExport: false,
+            showFooter: true,
+            clickToSelect: true,
+            toolbar: '#toolbar',
+            onClickRow: function (params) {
+                //let groupId = params.groupId;
+                //location.href = "/one?groupId=" + groupId;
+            },
+            queryParams: function queryParams(params) {
+                let param = {
+                    pageNumber: params.pageNumber,
+                    pageSize: params.pageSize,
+                    sortName: params.sortName,
+                    sortOrder: params.sortOrder,
+                    eplName: $("#eplName").val(),
+                    departName: $("#departName").val(),
+                    groupState: $("#groupState").val(),
+                    time1: $("#time1").val(),
+                    time2: $("#time2").val(),
+                };
+                return param;
+            }
+
+        })
+        $(document).on('click', "#search", function () {
+            $('#tableL01').bootstrapTable('refresh');
+        });
+    })
+
+    //编辑回显
+    /*function edit(){*/
+    let edit = $("#edit");
+    edit.click(function () {
+        let info = $('#tableL01').bootstrapTable('getSelections');
+        if (info.length != 1) {
+            alert("请选择一条数据!")
+        } else {
+            $('#myModal').modal('toggle');
+            $("#dName").val(info[0].name);
+            $("#depart").val(info[0].dep);
+            $("#age").val(info[0].age);
+            $("#sex").val(info[0].sex);
+            $("#start_time").val(info[0].entryTime);
+
+            $(function () {
+                let sex = info[0].sex;
+                //性别选中
+                $("#sex").children("option").each(function () {
+                    let text = $(this).val();
+                    if (sex == text) {
+                        $(this).attr("selected", "selected");
+                    }
+                })
+            })
+        }
+    })
+
+    //保存修改
+    function save() {
+        let info = $('#tableL01').bootstrapTable('getSelections')[0];
+        let id = info.id;
+        let name = $("#dName").val();
+        let age = $("#age").val();
+        let sex = $("#sex").val();
+        let depart = $("#depart").val();
+        let start_time = $("#start_time").val();
+
+        $.get("changeOne", {
+            "id": id,
+            "name": name,
+            "age": age,
+            "sex": sex,
+            "dep": depart,
+            "entryTime": start_time,
+
+        }, function (rs) {
+            if (rs = 1) {
+                $("#myModal").modal('hide')//取消模态框
+                $("#tableL01").bootstrapTable('refresh', rs);
+            }
+        })
+    }
+    //批量删除
+    function remove() {
+        if (!confirm("是否确认删除？"))
+            return;
+        let rows = $("#tableL01").bootstrapTable('getSelections')//要删除的数据
+        if (rows.length == 0) {
+            alert("请选择要删除的记录！");
+            return;
+        } else {
+            let ids = "";
+            $(rows).each(function () {
+                ids += this.id + ",";
+            });
+            $.ajax({
+                url: "removeById",
+                data: {"ids": ids},
+                type: "post",
+                success: function (data) {
+                    $("#tableL01").bootstrapTable('refresh', data);
+
+                }
+            })
+        }
+    }
+    //搜索框清空
+    function empty() {
+        $("#eplName").val("");
+        $("#departName").val("");
+        $("#groupState").val("");
+        $("#time1").val("");
+        $("#time2").val("");
+    }
+
+</script>
+</html>
