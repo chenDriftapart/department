@@ -35,7 +35,7 @@ public class DepartmentController {
     public int changeOne(Department department) {
         return deps.update(department);
     }
-    //修改单挑数据
+    //插入单条数据
     @RequestMapping("insertOne")
     public int insertOne(Department dep) {
         return deps.newp(dep);
