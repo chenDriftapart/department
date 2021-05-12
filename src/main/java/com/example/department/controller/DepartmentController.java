@@ -21,7 +21,7 @@ public class DepartmentController {
 
     @RequestMapping("/getAll")
     public List<Department> getUser(OtherModel oth) {
-        LOGGER.info("oth12====>"+oth);
+        LOGGER.info("oth====>"+oth);
         List<Department> dep = deps.getAll(oth);
         return dep;
     }
