@@ -39,6 +39,7 @@ public class DepartmentController {
     //插入单条数据
     @RequestMapping("insertOne")
     public int insertOne(Department dep) {
+        LOGGER.info("dep===>"+dep);
         return deps.newp(dep);
     }
     //批量删除

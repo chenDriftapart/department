@@ -37,14 +37,14 @@
                     <div class="input-group-addon">员工姓名</div>
                     <input type="text" class="form-control" id="rName">
                 </div>
-                <span id="fzr1"></span>
+                <span id="yg"></span>
             </div>
         </div>
         <div class="col-xs-3 col-lg-offset-1">
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">部门</div>
-                    <select class="form-control" id="department1">
+                    <select class="form-control" id="department">
                         <option value="">-请选择-</option>
                     </select>
                 </div>
@@ -84,7 +84,7 @@
                     <div class="input-group-addon">入职时间</div>
                     <input type="date" class="form-control" id="start_time">
                 </div>
-                <span id="rzsj"></span>
+                <span id="rTime"></span>
             </div>
         </div>
     </div>
@@ -98,277 +98,114 @@
 </body>
 <script>
     $(function () {
-        selectHospital();
-        selectLevel1();
-        selectdepartment1();
+        getDep();
     })
-
-    //医院查询
-    function selectHospital() {
-        $.get("findAllHospital", {}, function (rs) {
-            if (rs != null) {
-                var hospital1 = $("#hospital1");
-                for (var i = 0; i < rs.length; i++) {
-                    var varoption = $("<option value=" + rs[i].dictionaryId + ">" + rs[i].dictionaryName + "</option>")
-                    hospital1.append(varoption);
+    //部门赋值
+    function getDep(){
+        $.ajax({
+            url: "getDep",
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if(data!=null){
+                    let department=$("#department");
+                    for(let i=0; i<data.length; i++){
+                        let varOption = $("<option value=" + data[i].depart_num + ">" + data[i].depart_name + "</option>")
+                        department.append(varOption);
+                    }
                 }
             }
         })
     }
 
-    //查询级别
-    function selectLevel1() {
-        $.get("findAllLeavl", {}, function (rs) {
-            if (rs != null) {
-                var leavel = $("#level1");
-                for (var i = 0; i < rs.length; i++) {
-                    var varoption = $("<option value=" + rs[i].dictionaryId + ">" + rs[i].dictionaryName + "</option>")
-                    leavel.append(varoption);
-                }
+    function save(){
+       let rName=$("#rName").val();
+       let department=$("#department").val();
+       let age=$("#age").val();
+       let sex=$("#sex").val();
+       let start_time=$("#start_time").val();
+       if(rName==""||rName==null||department==""||department==null||age==""||age==null
+          ||sex==""||sex==null||start_time==""||start_time==null){
+           alert("请填写完整资料");
+           return false;
+       }
+        $.ajax({
+            url: "insertOne",
+            dataType: "json",
+            data: {
+                "name": rName,
+                "dep": department,
+                "age": age,
+                "sex": sex,
+                "entryTime": start_time,
+            },
+            success: function (data) {
+                location.href="/boot";
             }
         })
     }
-
-    //查询科室1
-    function selectdepartment1() {
-        $.get("findAllDepartment", {}, function (rs) {
-            if (rs != null) {
-                var departement = $("#department1");
-                for (var i = 0; i < rs.length; i++) {
-                    var varoption = $("<option value=" + rs[i].dictionaryId + ">" + rs[i].dictionaryName + "</option>");
-                    departement.append(varoption);
-                }
-            }
-        })
-    }
-
-    //单击保存添加
-    function save() {
-        var groupHospitalId = $("#hospital1").val();
-        var groupDepartmentId = $("#department1").val();
-        var groupPrincipal = $("#head").val();
-        var groupRankId = $("#level1").val();
-        var groupName = $("#group_name").val();
-        var groupPhone = $("#phone").val();
-        var groupState = $("#state").val();
-        var groupStartTime = $("#start_time").val();
-        var groupEndTime = $("#end_time").val();
-        var groupNum = $("#issue_number").val();
-        var patientNum = $("#number_patients").val();
-        var controlGroup = $("#control_group").val();
-        var background = $("#background").val();
-        if (patientNum <= 0) {
-            alert("患者不能为空或负数");
-            return false;
-        }
-        if (groupHospitalId == "" || groupHospitalId == null || groupDepartmentId == "" ||
-            groupDepartmentId == null || groupPrincipal == "" || groupPrincipal == null ||
-            groupRankId == "" || groupRankId == null || groupName == "" || groupName == null ||
-            groupPhone == "" || groupPhone == null || groupState == "" || groupState == null ||
-            groupStartTime == "" || groupStartTime == null || groupEndTime == "" || groupEndTime == null ||
-            groupNum == "" || groupNum == null || patientNum == "" || patientNum == null || controlGroup == "" ||
-            controlGroup == null || background == "" || background == null) {
-            alert("请完整输入信息！");
-            return false;
-        } else {
-            $.get("saveOne", {
-                "groupHospitalId": groupHospitalId,
-                "groupDepartmentId": groupDepartmentId,
-                "groupPrincipal": groupPrincipal,
-                "groupRankId": groupRankId,
-                "groupName": groupName,
-                "groupPhone": groupPhone,
-                "groupState": groupState,
-                "groupStartTime": groupStartTime,
-                "groupEndTime": groupEndTime,
-                "groupNum": groupNum,
-                "patientNum": patientNum,
-                "controlGroup": controlGroup,
-                "background": background,
-                "isDel": 0
-            }, function (rs) {
-                if (rs = 1) {
-                    location.href = "/login";
-                }
-            })
-        }
-    }
-
-    //联系电话校验
-    $("#phone").blur(function () {
-        var groupPhone = $("#phone").val();
-        $("#lxdh").empty();
-        if (groupPhone == '' || groupPhone == null) //判断用户名不为空
-        {
-            $("#lxdh").append("<span style='color:red;'>♠不能为空</span>");
-
-            $("#save").attr('disabled', disabled);
-            return false;
-        } else if (groupPhone.length != 11) {
-            $("#lxdh").append("<span style='color:red;'>♠请输入正确的手机号</span>");
-            return false;
-        } else {
-            $("#lxdh").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
-    //名称校验
-    $("#group_name").blur(function () {
-        var groupName = $("#group_name").val();
-        $("#mc").empty();
-        if (groupName == '' || groupName == null) //判断用户名不为空
-        {
-            $("#mc").append("<span style='color:red;'>♠不能为空</span>");
-            return false;
-        } else {
-            $("#mc").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
     //负责人校验
-    $("#head").blur(function () {
-        var groupPrincipal = $("#head").val();
-        $("#fzr").empty();
-        if (groupPrincipal == '' || groupPrincipal == null) //判断用户名不为空
+    $("#rName").blur(function () {
+        let rName = $("#rName").val();
+        $("#yg").empty();
+        if (rName == '' || rName == null) //判断用户名不为空
         {
-            $("#fzr").append("<span style='color:red;'>♠不能为空</span>");
+            $("#yg").append("<span style='color:red;'>♠不能为空</span>");
             return false;
         } else {
-            $("#fzr").append("<span style='color:green; font-size:28px;'>☺</span>");
+            $("#yg").append("<span style='color:green; font-size:28px;'>☺</span>");
             return true;
         }
     })
-    //课题编号校验
-    $("#issue_number").blur(function () {
-        var groupNum = $("#issue_number").val();
-        $("#ktbh").empty();
-        if (groupNum == '' || groupNum == null) //判断用户名不为空
+    //部门校验
+    $("#department").blur(function () {
+        let department = $("#department").val();
+        $("#bm").empty();
+        if (department == '' || department == null) //判断用户名不为空
         {
-            $("#ktbh").append("<span style='color:red;'>♠不能为空</span>");
+            $("#bm").append("<span style='color:red;'>♠不能为空</span>");
             return false;
         } else {
-            $("#ktbh").append("<span style='color:green; font-size:28px;'>☺</span>");
+            $("#bm").append("<span style='color:green; font-size:28px;'>☺</span>");
             return true;
         }
     })
-    //背景校验
-    $("#background").blur(function () {
-        var background = $("#background").val();
-        $("#bj").empty();
-        if (background == '' || background == null) //判断用户名不为空
+    //年龄校验
+    $("#age").blur(function () {
+        let age = $("#age").val();
+        $("#nl").empty();
+        if (age == '' || age == null) //判断用户名不为空
         {
-            $("#bj").append("<span style='color:red;'>♠不能为空</span>");
+            $("#nl").append("<span style='color:red;'>♠不能为空</span>");
             return false;
         } else {
-            $("#bj").append("<span style='color:green; font-size:28px;'>☺</span>");
+            $("#nl").append("<span style='color:green; font-size:28px;'>☺</span>");
             return true;
         }
     })
-    //责任医院校验
-    $("#hospital1").blur(function () {
-        var groupHospitalId = $("#hospital1").val();
-        $("#zryy").empty();
-        if (groupHospitalId == '' || groupHospitalId == null) //判断用户名不为空
+    //性别校验
+    $("#sex").blur(function () {
+        let sex = $("#sex").val();
+        $("#xb").empty();
+        if (sex == '' || sex == null) //判断用户名不为空
         {
-            $("#zryy").append("<span style='color:red;'>♠不能为空</span>");
+            $("#xb").append("<span style='color:red;'>♠不能为空</span>");
             return false;
         } else {
-            $("#zryy").append("<span style='color:green; font-size:28px;'>☺</span>");
+            $("#xb").append("<span style='color:green; font-size:28px;'>☺</span>");
             return true;
         }
     })
-    //责任科室校验
-    $("#department1").blur(function () {
-        var groupDepartmentId = $("#department1").val();
-        $("#zrks").empty();
-        if (groupDepartmentId == '' || groupDepartmentId == null) //判断用户名不为空
-        {
-            $("#zrks").append("<span style='color:red;'>♠不能为空</span>");
-            return false;
-        } else {
-            $("#zrks").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
-    //级别校验
-    $("#level1").blur(function () {
-        var groupRankId = $("#level1").val();
-        $("#jb").empty();
-        if (groupRankId == '' || groupRankId == null) //判断用户名不为空
-        {
-            $("#jb").append("<span style='color:red;'>♠不能为空</span>");
-            return false;
-        } else {
-            $("#jb").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
-    //状态校验
-    $("#state").blur(function () {
-        var groupState = $("#state").val();
-        $("#zt").empty();
-        if (groupState == '' || groupState == null) //判断用户名不为空
-        {
-            $("#zt").append("<span style='color:red;'>♠不能为空</span>");
-            return false;
-        } else {
-            $("#zt").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
-    //开始时间校验
+    //年龄校验sex
     $("#start_time").blur(function () {
-        var groupStartTime = $("#start_time").val();
-        $("#kssj").empty();
-        if (groupStartTime == '' || groupStartTime == null) //判断用户名不为空
+        let start_time = $("#start_time").val();
+        $("#rTime").empty();
+        if (start_time == '' || start_time == null) //判断用户名不为空
         {
-            $("#kssj").append("<span style='color:red;'>♠不能为空</span>");
+            $("#rTime").append("<span style='color:red;'>♠不能为空</span>");
             return false;
         } else {
-            $("#kssj").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
-    //结束时间校验
-    $("#end_time").blur(function () {
-        var groupEndTime = $("#end_time").val();
-        $("#jssj").empty();
-        if (groupEndTime == '' || groupEndTime == null) //判断用户名不为空
-        {
-            $("#jssj").append("<span style='color:red;'>♠不能为空</span>");
-            return false;
-        } else {
-            $("#jssj").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
-    //患者数量校验
-    $("#number_patients").blur(function () {
-        var patientNum = $("#number_patients").val();
-        $("#hzsl").empty();
-        if (patientNum == '' || patientNum == null) //判断用户名不为空
-        {
-            $("#hzsl").append("<span style='color:red;'>♠不能为空</span>");
-            return false;
-        } else {
-            if (patientNum <= 0) {
-                $("#hzsl").append("<span style='color:red;'>♠不能为负数或0</span>");
-                return false;
-            }
-            $("#hzsl").append("<span style='color:green; font-size:28px;'>☺</span>");
-            return true;
-        }
-    })
-    //类型校验
-    $("#control_group").blur(function () {
-        var controlGroup = $("#control_group").val();
-        $("#lx").empty();
-        if (controlGroup == '' || controlGroup == null) //判断用户名不为空
-        {
-            $("#lx").append("<span style='color:red;'>♠不能为空</span>");
-            return false;
-        } else {
-            $("#lx").append("<span style='color:green; font-size:28px;'>☺</span>");
+            $("#rTime").append("<span style='color:green; font-size:28px;'>☺</span>");
             return true;
         }
     })

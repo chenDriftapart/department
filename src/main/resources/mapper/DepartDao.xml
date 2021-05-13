@@ -19,6 +19,9 @@
             <if test="eplName!= null and eplName != ''">
                 and t.name like concat('%', #{eplName},'%')
             </if>
+            <if test="departName!= null and departName != ''">
+                and t.dep = #{departName}
+            </if>
             <if test="groupState!= null and groupState != ''">
                 and t.state = #{groupState}
             </if>
@@ -28,7 +31,7 @@
             <if test="time2!= null and time2 != ''">
                 and t.entryTime &lt;= #{time2}
             </if>
-
+            order by id desc
         </where>
     </select>
 
@@ -49,7 +52,7 @@
         <include refid="table"/>
         (name,dep,age,sex,entrytime)
         VALUES
-        (#{name},#{dep},#{age},#{sex},#{entrytime})
+        (#{name},#{dep},#{age},#{sex},#{entryTime})
     </insert>
 
     <!-- 改 -->

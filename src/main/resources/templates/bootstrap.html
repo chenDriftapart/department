@@ -115,7 +115,9 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">部门</div>
-                                <input type="text" class="form-control" id="depart">
+                                <select class="form-control" id="depart">
+                                    <option value="">请选择</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -227,6 +229,7 @@
         $(document).on('click', "#search", function () {
             $('#tableL01').bootstrapTable('refresh');
         });
+        getDep();
     })
 
     //编辑回显
@@ -243,17 +246,14 @@
             $("#age").val(info[0].age);
             $("#sex").val(info[0].sex);
             $("#start_time").val(info[0].entryTime);
+        }
+    })
 
-            $(function () {
-                let sex = info[0].sex;
-                //性别选中
-                $("#sex").children("option").each(function () {
-                    let text = $(this).val();
-                    if (sex == text) {
-                        $(this).attr("selected", "selected");
-                    }
-                })
-            })
+    let insert = $("#insert");
+    insert.click(function () {
+        let info = $('#tableL01').bootstrapTable('getSelections');
+        if (info.length != 1) {
+            alert("请选择一条数据!")
         }
     })
 
@@ -313,6 +313,29 @@
         $("#groupState").val("");
         $("#time1").val("");
         $("#time2").val("");
+    }
+
+    function getDep(){
+        $.ajax({
+            url: "getDep",
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                if(data!=null){
+                    let departName=$("#departName");
+                    let depart=$("#depart");
+                    for(let i=0; i<data.length; i++){
+                        let varOption = $("<option value=" + data[i].depart_num + ">" + data[i].depart_name + "</option>")
+                        departName.append(varOption);
+                    }
+                    for(let i=0; i<data.length; i++){
+                        let varOption = $("<option value=" + data[i].depart_num + ">" + data[i].depart_name + "</option>")
+                        depart.append(varOption);
+                    }
+                }
+
+            }
+        })
     }
 
 </script>

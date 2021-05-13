@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Dictionary {
     private int id;
-    private String departNum;
-    private String departName;
+    private String depart_num;
+    private String depart_name;
 }
