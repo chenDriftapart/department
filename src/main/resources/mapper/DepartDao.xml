@@ -6,27 +6,27 @@
     <!-- 填写数据库里实例department对应的表的表名 -->
     <!-- 这里是作为一个变量使用 -->
     <sql id="table">depart</sql>
-
     <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
     <!-- 查询所有   -->
-    <select id="getAll" resultType="com.example.department.model.Department">
+    <select id="getAll" resultType="com.example.department.model.DepartDictionary">
         SELECT
-        *
+        t.*,d.depart_name
         FROM
-        <include refid="table" />
+        depart t
+        LEFT JOIN dictionary d ON t.dep = d.depart_num
         <where>
              1=1
             <if test="eplName!= null and eplName != ''">
-                and name like concat('%', #{eplName},'%')
+                and t.name like concat('%', #{eplName},'%')
             </if>
             <if test="groupState!= null and groupState != ''">
-                and state = #{groupState}
+                and t.state = #{groupState}
             </if>
             <if test="time1!= null and time1 != ''">
-                and entryTime &gt;= #{time1}
+                and t.entryTime &gt;= #{time1}
             </if>
             <if test="time2!= null and time2 != ''">
-                and entryTime &lt;= #{time2}
+                and t.entryTime &lt;= #{time2}
             </if>
 
         </where>

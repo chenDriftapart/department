@@ -1,6 +1,7 @@
 package com.example.department.service;
 
 import com.example.department.dao.DepartDao;
+import com.example.department.model.DepartDictionary;
 import com.example.department.model.Department;
 import com.example.department.model.OtherModel;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class DepartService {
         Service层介于controller和dao之间作为服务层进行一些逻辑处理，
         这里逻辑太简单所以知识单纯调用dao所以不做注释
      */
-    public List<Department> getAll(OtherModel oth){
+    public List<DepartDictionary> getAll(OtherModel oth){
         return depDao.getAll(oth);
     }
 

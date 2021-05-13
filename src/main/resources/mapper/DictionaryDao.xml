@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 这里填写对应的Dao文件所在的路径 -->
+<mapper namespace="com.example.department.dao.DictionaryDao">
+    <!-- 填写数据库里实例Dictionary对应的表的表名 -->
+    <!-- 这里是作为一个变量使用 -->
+    <sql id="table">dictionary</sql>
+    <!-- id属性填写Dao文件里的函数名称 xxType是参数或是结果的类型根据情况填写 -->
+    <!-- 查询所有   -->
+    <!-- 根据id查询 -->
+    <select id="getDep" resultType="com.example.department.model.Dictionary">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+    </select>
+</mapper>

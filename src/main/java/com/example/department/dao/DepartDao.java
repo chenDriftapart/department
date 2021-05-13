@@ -1,6 +1,7 @@
 package com.example.department.dao;
 
 
+import com.example.department.model.DepartDictionary;
 import com.example.department.model.Department;
 import com.example.department.model.OtherModel;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +15,7 @@ public interface DepartDao {
     查所有
     return List<Department>
      */
-    List<Department> getAll(OtherModel oth);
+    List<DepartDictionary> getAll(OtherModel oth);
 
     /*
     根据ID查询
