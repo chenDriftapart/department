@@ -1,5 +1,6 @@
 package com.example.department.controller;
 
+import com.example.department.model.DepartDictionary;
 import com.example.department.model.Department;
 import com.example.department.model.OtherModel;
 import com.example.department.service.DepartService;
@@ -20,9 +21,9 @@ public class DepartmentController {
     private DepartService deps;
 
     @RequestMapping("/getAll")
-    public List<Department> getUser(OtherModel oth) {
+    public List<DepartDictionary> getUser(OtherModel oth) {
         LOGGER.info("oth====>"+oth);
-        List<Department> dep = deps.getAll(oth);
+        List<DepartDictionary> dep = deps.getAll(oth);
         return dep;
     }
     @RequestMapping("/getDepById")
