@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>用户注册</title>
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <script src="/js/grade.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/hospital.css">
+</head>
+<style>
+    i {
+        position: absolute;
+        left: 420px;
+        top: 8px;
+    }
+</style>
+<body>
+<!--
+<div th:replace="navigation :: nav"></div>
+-->
+<div class="container-fluid main" style="height: 550px">
+    <div class="row" style="margin-top: 50px">
+        <div class="col-xs-4 col-lg-offset-2">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">用户名</div>
+                    <input type="text" class="form-control" id="yName" placeholder="请输入用户名">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 col-lg-offset-2">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">密码</div>
+                    <input type="password" class="form-control" id="yPassword" autocomplete="new-password" placeholder="6-16位字母、数字、符号">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 col-lg-offset-2">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">确认密码</div>
+                    <input type="password" class="form-control" id="yes" autocomplete="new-password" placeholder="请再次输入密码">
+                </div>
+                <i></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn-info btn" style="margin-left: 350px" onclick="save()">保存</button>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function save(){
+        let yName=$("#yName").val();
+        let yPassword=$("#yPassword").val();
+        let yes=$("#yes").val();
+        if(yName==''||yName==null||yPassword==''||yPassword==null||yes==''||yes==null){
+            alert("请输入完整信息");
+        }else{
+            if(yes==yPassword){
+                $.ajax({
+                    url: "insertAdmin",
+                    dataType: "json",
+                    data: {
+                        "username": yName,
+                        "password": yPassword,
+                    },
+                    success: function (data) {
+                        location.href="/"
+                    }
+                })
+            }else{
+                alert("密码确认有误");
+            }
+        }
+
+    }
+
+</script>
+
+</html>

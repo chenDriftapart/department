@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -175,7 +176,7 @@
                 <form class="form-horizontal" action="/login" onsubmit="return check()">
                     <span class="heading">用户登录</span>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="phone" placeholder="手机号">
+                        <input type="text" class="form-control" id="name" placeholder="用 户">
                         <i class="fa fa-user"></i>
                     </div>
                     <div class="form-group help">
@@ -189,6 +190,7 @@
                         </div>
                         <span class="text">Remember me</span>
                         <button type="button" id="login" class="btn btn-default">登录</button>
+                        <button type="button" id="insert" class="btn btn-default">注册</button>
                     </div>
                 </form>
             </div>
@@ -198,14 +200,14 @@
 </body>
 <script>
     $('#login').click(function () {
-        var phone = $('#phone').val();
-        var password = $('#password').val();
-        if (phone == '') {
+        let name = $('#name').val();
+        let password = $('#password').val();
+        if (name == '') {
             alert("请输入账号");
         } else if (password == '') {
             alert("请输入密码");
         } else {
-            $.getJSON('/checkLogin', {"phone": phone, "password": password}, function (res) {
+            $.getJSON('/checkLogin', {"name": name, "password": password}, function (res) {
                 if (res.mes == 'success') {
                     window.location.href = res.address;
                 } else {
@@ -213,6 +215,11 @@
                 }
             })
         }
+    })
+
+    $('#insert').click(function () {
+        //sessionStorage.clear();
+        location.href="/register";
     })
 </script>
 </html>

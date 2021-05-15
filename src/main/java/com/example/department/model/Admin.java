@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-/**用户字典表**/
-public class DepartDictionary extends Department{
-
-    private String depart_num;
-    private String depart_name;
+/**账号密码**/
+public class Admin {
+    private int aid;
+    private String username;
+    private String password;
 }

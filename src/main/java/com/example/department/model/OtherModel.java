@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+/**封装查询条件的实体类**/
 public class OtherModel {
     private String pageNumber;
     private String pageSize;
