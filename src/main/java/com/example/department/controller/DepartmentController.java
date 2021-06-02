@@ -10,21 +10,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DepartmentController {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
+    public static final Logger log = LoggerFactory.getLogger(DepartmentController.class);
 
     @Resource
     private DepartService deps;
 
     @RequestMapping("/getAll")
     public List<DepartDictionary> getUser(OtherModel oth) {
-        LOGGER.info("oth====>"+oth);
+        log.info("oth====>"+oth);
         List<DepartDictionary> dep = deps.getAll(oth);
         return dep;
+    }
+    @RequestMapping("/getLay")
+    public HashMap<String,Object> getDep(OtherModel oth) {
+        List<DepartDictionary> dep = deps.getAll(oth);
+        HashMap<String,Object> map= new HashMap<>();
+        map.put("code",0);
+        map.put("mes","success");
+        map.put("data",dep);
+        return map;
     }
     @RequestMapping("/getDepById")
     public Department getDepById(Integer id) {
@@ -39,7 +50,7 @@ public class DepartmentController {
     //插入单条数据
     @RequestMapping("insertOne")
     public int insertOne(Department dep) {
-        LOGGER.info("dep===>"+dep);
+        log.info("dep===>"+dep);
         return deps.newp(dep);
     }
     //批量删除
@@ -58,5 +69,21 @@ public class DepartmentController {
         }
 
     }
+
+    @RequestMapping("/getH")
+    public Map<String,Object> getDep1(OtherModel oth) {
+       Map<String,Object> map= deps.getLay(oth);
+        return map;
+    }
+
+    @RequestMapping("/getCount")
+    public Map<String,Object> getCount() {
+        HashMap<String,Object> map=new HashMap<>();
+        Integer count=deps.getCount();
+        map.put("count",count);
+        map.put("mes","success");
+        return map;
+    }
+
 
 }
